@@ -1,23 +1,38 @@
+# Makefile
 
-# Generic top Makefile
+TARGET    = dbl_min_app
 
-APP_NAME  = $(shell basename $(CURDIR))
+CC        = gcc
+SRC_DIR   = src
+BUILD_DIR = build
+INC_DIR   = src
 
-APP_SRC_FILES  =  main.c
+LIBS      = -lm -lrt
+LIBDIR    = 
+INCLUDE   = -I$(INC_DIR)
 
-CFLAGS += -O0
+CFLAGS    = -O2 -Wall -g
+VPATH     = $(SRC_DIR)
 
-LD_SCRIPT = ${PROJECT_ROOT}/software/lnk/riscv_base.ld
-# LD_SCRIPT = ${PROJECT_ROOT}/software/lnk/riscv_base_192kB.ld
+SRC       = $(notdir $(wildcard $(SRC_DIR)/*.c))
+OBJ_PATH  = $(SRC:%.c=%.o)
+OBJ       = $(patsubst %,$(BUILD_DIR)/%,$(OBJ_PATH))
 
--include ${PROJECT_ROOT}/software/scripts/riscv_app.mk
 
-# Choose between cadence incisive or mentor graphics modelsim
--include ${PROJECT_ROOT}/software/scripts/riscv_sim_irun.mk
-# -include ${PROJECT_ROOT}/software/scripts/riscv_sim_msim.mk
+all: $(TARGET)
+	@echo ">>>>  COMPILATION FINISHED SUCCESSFULLY!"
 
-clean       : clean_app clean_sim
-	rm -rf mem
-all         : app sim_batch
-run         : sim_batch
-run_gui     : sim
+$(TARGET): $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $+ $(LIBS) $(LIBDIRS)
+
+$(BUILD_DIR)/%.o: %.c $(BUILD_DIR)
+	$(CC) $(CFLAGS) $(INCLUDE) -c -o $@ $<
+
+$(BUILD_DIR):
+	@mkdir $(BUILD_DIR)
+
+clean:
+	rm -rf *.s *.o *~ $(BUILD_DIR) $(TARGET) $(SRC_DIR)/*~
+
+run:
+	./$(TARGET)

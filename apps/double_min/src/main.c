@@ -1,4 +1,8 @@
-/* Function performing a double minimum search */
+// Copyright EPFL contributors.
+// Licensed under the Apache License, Version 2.0, see LICENSE for details.
+// SPDX-License-Identifier: Apache-2.0
+
+/* Function performing a double minimum search (values and indexes) */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,8 +32,8 @@ int main(int argc, char **argv) {
     }
   }
 
-  printf("First minimum value %d found at index %d\n", kernel_res[0], kernel_res[2]);
-  printf("Second minimum value %d found at index %d\n", kernel_res[1], kernel_res[3]);
+  printf("First minimum value is%d at index %d\n", kernel_res[0], kernel_res[2]);
+  printf("Second minimum value is %d at index %d\n", kernel_res[1], kernel_res[3]);
 
   return 0;
 }

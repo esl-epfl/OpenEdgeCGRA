@@ -1,5 +1,5 @@
 #
-# FFT input bit reversal reordering instructions
+# FFT input bit reversal reordering instructions (manual mapping)
 #
 
 ker_col_needed = 1

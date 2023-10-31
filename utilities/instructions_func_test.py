@@ -1,5 +1,5 @@
 #
-# CGRA Functionality test instructions
+# CGRA Functionality test instructions (manual mapping)
 #
 
 ker_col_needed = 4

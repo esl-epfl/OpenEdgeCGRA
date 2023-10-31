@@ -1,5 +1,5 @@
 #
-# CGRA never ending while loop for power measurement with 75% PE utilization
+# CGRA never ending while loop for power measurement with 75% PE utilization (manual mapping)
 #
 
 ker_col_needed = 4

@@ -1,19 +1,7 @@
-////////////////////////////////////////////////////////////////////////////////
-// Author:         Benoît Denkinger - benoit.denkinger@epfl.ch                //
-//                                                                            //
-// Additional contributions by:                                               //
-//                                                                            //
-//                                                                            //
-// Design Name:    CGRA TESTBENCH                                             //
-// Project Name:   CGRA                                                       //
-// Language:       SystemVerilog                                              //
-//                                                                            //
-// Description:    Apply input signals to cgra_top module (rtl or netlist).   //
-//                                                                            //
-////////////////////////////////////////////////////////////////////////////////
+// Copyright 2023 EPFL
+// Solderpad Hardware License, Version 2.1, see LICENSE.md for details.
+// SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 
-// timeunit 1ps;
-// timeprecision 1ps;
 `timescale 1ns/1ps
 
 import cgra_config_pkg::*;
@@ -76,9 +64,8 @@ module cgra_tb;
   //=================================================================================//
 
   // time is in ns
-
-  // integer log_file = $fopen("../../HDL/TBENCH/sig_log_double_min_rtl.out", "r"); // file handler
-  integer log_file = $fopen("../../HDL/TBENCH/fft_256_real_syn_v2.0.trace", "r"); // file handler
+  // file handler
+  integer log_file = $fopen("mylogfile", "r");
 
   //=================================================================================//
 

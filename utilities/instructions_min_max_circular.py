@@ -1,5 +1,5 @@
 #
-# MIN_MAX_CIRCULAR search instructions DEPREDECATED
+# MIN_MAX_CIRCULAR search instructions (manual mapping) DEPREDECATED
 #
 
 ker_col_needed = 1

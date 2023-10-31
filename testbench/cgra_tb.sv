@@ -2,6 +2,10 @@
 // Solderpad Hardware License, Version 2.1, see LICENSE.md for details.
 // SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 
+// This testbench is used to simulate the CGRA on its own. For that a log file containing the input (and output) signals is needed.
+// This file is created by simulating the CGRA within a complete system and logging the input and output signals.
+// This is file has not been used for a while so it could not be up-to-date with the actual rtl.
+
 `timescale 1ns/1ps
 
 import cgra_config_pkg::*;

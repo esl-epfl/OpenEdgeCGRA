@@ -1,8 +1,8 @@
-// Copyright 2022 EPFL
+// Copyright 2023 EPFL
 // Solderpad Hardware License, Version 2.1, see LICENSE.md for details.
 // SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 
-module cgra
+module cgra_rcs
   import cgra_pkg::*;
 (
   input  logic [            N_COL-1:0] clk_i,

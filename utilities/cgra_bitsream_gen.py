@@ -1,10 +1,6 @@
-'''
-    File name: inst_encoder.py
-    Author: Benoit Denkinger
-    Date created: 28/06/2018
-    Python Version: Python 3.4.3
-    Description: Encode instructions for the CGRA
-'''
+# Copyright EPFL contributors.
+# Licensed under the Apache License, Version 2.0, see LICENSE for details.
+# SPDX-License-Identifier: Apache-2.0
 
 import os
 import sys

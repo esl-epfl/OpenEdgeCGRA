@@ -167,7 +167,7 @@ module cgra_top
     .acc_end_o          ( acc_end_s          )
   );
 
-  cgra cgra_rcs_i
+  cgra_rcs cgra_rcs_i
   (
     .clk_i            ( clk_rcs_cg        ),
     .rst_col_i        ( rcs_rst_col_s     ),

@@ -1,5 +1,5 @@
 #
-# DOUBLE_MIN search instructions
+# DOUBLE_MIN search instructions (manual mapping)
 #
 
 ker_col_needed = 1

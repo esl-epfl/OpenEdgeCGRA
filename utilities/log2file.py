@@ -1,19 +1,12 @@
-'''
-    File name: log2file.py
-    Author: Benoit Denkinger
-    Date created: 15/06/2018
-    Python Version: Python 3.4.3
-    Description: class to easily create a nice log file
-'''
+# Copyright EPFL contributors.
+# Licensed under the Apache License, Version 2.0, see LICENSE for details.
+# SPDX-License-Identifier: Apache-2.0
 
-'''
-Example
-
-myLog = log2file('log2file_example', 5, 2, 3, len('OUTPUT'), 10)
-myLog.log_column_name('Index', 34, 'TP', 'OUTPUT', 'DATE/TIME')
-myLog.log_line('4', 65, '001', '67', 2323456456)
-myLog.log_line('4', '23', 1, '67', 56456)
-'''
+# Example
+# myLog = log2file('log2file_example', 5, 2, 3, len('OUTPUT'), 10)
+# myLog.log_column_name('Index', 34, 'TP', 'OUTPUT', 'DATE/TIME')
+# myLog.log_line('4', 65, '001', '67', 2323456456)
+# myLog.log_line('4', '23', 1, '67', 56456)
 
 class log2file(object):
 
@@ -153,12 +146,3 @@ class log2file(object):
 
 		self.outputFile.write('\n' * num_lines)
 		self.outputFile.close()
-
-
-##############################################################################################
-# Example
-
-# myLog = log2file('log2file_example', 5, 2, 3, len('OUTPUT'), 10)
-# myLog.log_column_name('Index', 34, 'TP', 'OUTPUT', 'DATE/TIME')
-# myLog.log_line('4', 65, '001', '67', 2323456456)
-# myLog.log_line('4', '23', 1, '67', 56456)

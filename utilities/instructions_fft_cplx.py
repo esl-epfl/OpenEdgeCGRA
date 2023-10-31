@@ -1,5 +1,5 @@
 #
-# FFT computation for complex input (can also be a real input with only zeros for the complex part but in this case there is a better option)
+# FFT computation for complex input (manual mapping)
 #
 
 ker_col_needed = 2

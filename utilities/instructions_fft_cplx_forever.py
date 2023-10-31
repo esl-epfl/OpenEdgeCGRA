@@ -1,5 +1,5 @@
 #
-# FFT computation for complex input running forever for power measurement
+# FFT computation for complex input running forever for power measurement (manual mapping)
 #
 
 ker_col_needed = 2

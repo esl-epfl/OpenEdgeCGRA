@@ -104,8 +104,13 @@ module cgra_rcs
     end
   end
 
-  // Only let the execution end signal go through if there is not branch request (rcs_br_req_o is already combined with col_acc_map_i)
-  assign exec_end_s = rcs_exec_end_col_merged & ~rcs_br_req_o;
+  // Only let the execution end signal go through if there is not branch request and check if signal should be propagated to other columns
+  always_comb
+  begin
+    for (int l=0; l<N_COL; l++) begin
+      exec_end_s[l] = |(rcs_exec_end_col_merged & ~rcs_br_req_o & col_acc_map_i[l]);
+    end
+  end
 
   // Maintain request high as long as one RC is not served
   always_comb
@@ -307,8 +312,8 @@ module cgra_rcs
 
       rcs_br_req_o[l] = 1'b0;
       rcs_br_add_o[l] = '0;
-      one_hot_encoding_col = 1'b1;
-      one_hot_encoding_row = 1'b1;
+      one_hot_encoding_col = {{(N_COL-1){1'b0}}, 1'b1};
+      one_hot_encoding_row = {{(N_ROW-1){1'b0}}, 1'b1};
 
       for (int k=0; k<N_COL; k++) begin
         if (rcs_br_req_col_merged_s[l] == one_hot_encoding_col) begin

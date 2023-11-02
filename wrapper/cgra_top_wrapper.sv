@@ -48,7 +48,6 @@ module cgra_top_wrapper
   logic [            N_SLOTS-1:0] cgra_evt;
 
   // Context memory decoder to actual SRAM macro
-  logic                           cm_cg_s;
   logic [              N_ROW-1:0] cm_row_req_s;
   logic                           cm_we_s;
   logic [  IMEM_N_LINES_LOG2-1:0] cm_addr_s;
@@ -81,9 +80,6 @@ module cgra_top_wrapper
           masters_req_o[j].we    = '0;
           masters_req_o[j].be    = '0;
           masters_req_o[j].wdata = '0;
-          // tcdm_gnt[j]            = '0;
-          // tcdm_rdata[j]          = '0;
-          // tcdm_r_valid[j]        = '0;
         end
       end
     endgenerate
@@ -102,7 +98,7 @@ module cgra_top_wrapper
   assign cgra_int_o = |cgra_evt;
 
   // No actual need to read this memory so only cgra_ram0 is connected for read
-  assign cm_rdata_o = rcs_cmem_rdata_s[0];
+  assign cm_rdata = rcs_cmem_rdata_s[0];
 
   logic clk_mem_cg, clk_mem_en;
   logic clk_logic_cg;

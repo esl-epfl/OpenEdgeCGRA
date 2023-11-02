@@ -19,6 +19,12 @@ lint_off -rule UNUSED -file "*esl_epfl_cgra/rtl/cgra_controller.sv" -match "Bits
 lint_off -rule UNUSED -file "*esl_epfl_cgra/rtl/context_memory_decoder.sv" -match "Bits of signal are not used: 'cm_add_i'[31:12,1:0]"
 lint_off -rule UNUSED -file "*esl_epfl_cgra/rtl/context_memory_decoder.sv" -match "Bits of signal are not used: 'cm_wdata_i'[31:16]"
 
+// For loop variable (32 bits) compared with an actual signal
+lint_off -rule WIDTH  -file "*esl_epfl_cgra/rtl/context_memory_decoder.sv" -match "Operator EQ expects 32 bits on the LHS, but LHS's VARREF 'bk_sel' generates 3 bits."
+
+// Clock gating unit used for RTL simulator only
+lint_off -rule UNOPTFLAT -file "*esl_epfl_cgra/sim/cgra_clock_gate.sv" -match "Signal unoptimizable: Feedback to clock or circular logic*"
+
 // Signal is kept to have the full interface signal with bus interconnection
 lint_off -rule UNUSED -file "*esl_epfl_cgra/rtl/context_memory_decoder.sv" -match "Signal is not used: 'cm_be_i'"
 
@@ -46,6 +52,8 @@ lint_off -rule MULTIDRIVEN -file "*esl_epfl_cgra/rtl/cgra_rcs.sv" -match "Signal
 lint_off -rule MULTIDRIVEN -file "*esl_epfl_cgra/rtl/cgra_rcs.sv" -match "Signal has multiple driving blocks with different clocking: 'testharness.cgra_x_heep_top_i.cgra_top_wrapper_i.cgra_top_i.cgra_rcs_i.rcs_flag_reg'*"
 lint_off -rule MULTIDRIVEN -file "*esl_epfl_cgra/rtl/cgra_rcs.sv" -match "Signal has multiple driving blocks with different clocking: 'testharness.cgra_x_heep_top_i.cgra_top_wrapper_i.cgra_top_i.cgra_rcs_i.rcs_res_reg'*"
 lint_off -rule MULTIDRIVEN -file "*esl_epfl_cgra/rtl/cgra_rcs.sv" -match "Signal has multiple driving blocks with different clocking: 'testharness.cgra_x_heep_top_i.cgra_top_wrapper_i.cgra_top_i.cgra_rcs_i.rcs_res_reg_temp'*"
+lint_off -rule MULTIDRIVEN -file "*esl_epfl_cgra/rtl/cgra_rcs.sv" -match "Signal has multiple driving blocks with different clocking: 'testharness.cgra_x_heep_top_i.cgra_top_wrapper_i.cgra_top_i.cgra_rcs_i.rcs_flag_reg_temp'*"
+
 lint_off -rule MULTIDRIVEN -file "*esl_epfl_cgra/rtl/cgra_rcs.sv" -match "Signal has multiple driving blocks with different clocking: 'testharness.cgra_x_heep_top_i.cgra_top_wrapper_i.cgra_top_i.cgra_rcs_i.rcs_flag_reg_temp'*"
 
 // Remove clock gating instance for verilator simulation otherwise sim is failing (verilator v4.2)

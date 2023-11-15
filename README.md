@@ -22,7 +22,7 @@ All CGRA operations use 32-bits words.
 
 # Workflow
 
-The CGRA workflow begins with an CIL, a program that we want to accelerate using the CGRA. Using the [Instruction Set](#instruction-set) that CIL is _mapped_ into the PEs. Each set of $N\times M$ PE-operations that are executed simultaneously form a CGRA-instruction. These can be as fast as a single clock cycle, but its length may be extended if long PE-operations happen during it.As a rule of thumb:
+The CGRA workflow begins with an CIL, a program that we want to accelerate using the CGRA. Using the [Instruction Set](#instruction-set) that CIL is _mapped_ into the PEs. Each set of $N\times M$ PE-operations that are executed simultaneously form a CGRA-instruction. These can be as fast as a single clock cycle, but its length may be extended if long PE-operations happen during it. As a rule of thumb:
 * Most operations take 1 cycle
 * A multiplication takes 3 cycles
 * A memory access to a memory bank has a 2-cycle overhead, plus 1 additional cycle per PE trying to access it.
@@ -36,10 +36,14 @@ Branches are available. If a PE requests a branch to another instruction, all th
 Once you have your assembly, you can test it with the [ESL-CGRA simulator](https://github.com/esl-epfl/ESL-CGRA-simulator). Note that it is a behavioural simulator, so it will not account for the aforementioned timing requirements of operations.
 
 The assembly is then converted into two bitstreams:
-* The _kerel memory_: containing the CIL configuration
+* The _kernel memory_: containing the CIL configuration
 * The _Instruction memory_: Contianing the instructions to be executed by each PE in each instruction.
 
 Both bitstreams are loaded into the CGRA during the configuration. After the configuration has been loaded, the same CIL can be executed more than once without the need of re-loading the memories.
+
+Wether the instruction memory of the PEs should be reloaded is determined by the kernel ID that is requested. That is, if you provide a different kernel ID (index inside the kernel memory), the CGRA will reload the PE's instruction memory with the configuration obtained from wherever the kernel configuration (the value stored in that index) indicates.
+
+![CGRA Architecture](docs/cgra_exec_steps.png)
 
 # Access to data
 There are a number of ways to input data into a CIL execution:

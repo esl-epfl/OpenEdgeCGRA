@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Copyright EPFL contributors.
 # Licensed under the Apache License, Version 2.0, see LICENSE for details.
 # SPDX-License-Identifier: Apache-2.0
@@ -84,6 +86,7 @@ def return_indices_of_a(a, b, name = ''):
 
     sys.exit("ERROR instruction: " + str(b) + " is not a valid command (not in " + name + " list)")
 
+<%text>
 ##########################################################################
 #   _____ _____ _____              _____ ____  _   _ ______ _____ _____  #
 #  / ____/ ____|  __ \    /\      / ____/ __ \| \ | |  ____|_   _/ ____| #
@@ -93,9 +96,10 @@ def return_indices_of_a(a, b, name = ''):
 #  \_____\_____|_|  \_/_/    \_\  \_____\____/|_| \_|_|    |_____\_____| #
 #                                                                        #
 ##########################################################################
+</%text>\
 
-CGRA_N_COL = 4
-CGRA_N_ROW = 4
+CGRA_N_COL = ${cgra_num_columns}
+CGRA_N_ROW = ${cgra_num_rows}
 
 RCS_NUM_CREG      = 32;
 RCS_NUM_CREG_LOG2 = ceil(log(RCS_NUM_CREG,2));
@@ -109,6 +113,7 @@ CGRA_KMEM_N_KER = 16
 # Kernel configuration word width
 CGRA_KMEM_WIDTH = CGRA_N_COL + CGRA_IMEM_NL_LOG2 + RCS_NUM_CREG_LOG2
 
+<%text>
 #################################################################
 #  _____   _____  _____    _____ ____  _   _ _____ _____ _____  #
 # |  __ \ / ____|/ ____|  / ____/ __ \| \ | |  ___|_   _/ ____| #
@@ -118,6 +123,7 @@ CGRA_KMEM_WIDTH = CGRA_N_COL + CGRA_IMEM_NL_LOG2 + RCS_NUM_CREG_LOG2
 # |_|  \_\\_____|_____/   \_____\____/|_| \_|_|   |_____\_____| #
 #                                                               #
 #################################################################
+</%text>\
 
 RCS_MUXA_BITS    = 4
 RCS_MUXB_BITS    = 4
@@ -149,6 +155,7 @@ muxF_list      = ['SELF', 'RCL', 'RCR', 'RCT', 'RCB']
 
 rcs_nop_instr = ['ZERO', 'ZERO', 'NOP', '-', 'SELF', '0']
 
+<%text>
 #####################################################################################
 #  _  _______ _____     _____ ____  _   _ _____  __          ______  _____  _____   #
 # | |/ /  ___|  __ \   / ____/ __ \| \ | |  ___| \ \        / / __ \|  __ \|  __ \  #
@@ -158,16 +165,19 @@ rcs_nop_instr = ['ZERO', 'ZERO', 'NOP', '-', 'SELF', '0']
 # |_|\_\_____|_|  \_\  \_____\____/|_| \_|_|         \/  \/   \____/|_|  \_\_____/  #
 #                                                                                   #
 #####################################################################################
+</%text>\
 
 ker_null_conf = get_bin(0, CGRA_KMEM_WIDTH)
 
+<%text>
 #####################################################################################
+</%text>\
 
-rcs_imem_file = '../bitsream/cgra_imem.bit'
-ker_kmem_file = '../bitsream/cgra_kmem.bit'
+rcs_imem_file = '../bitstream/cgra_imem.bit'
+ker_kmem_file = '../bitstream/cgra_kmem.bit'
 
-if not os.path.exists('../bitsream'):
-    os.mkdir('../bitsream')
+if not os.path.exists('../bitstream'):
+    os.mkdir('../bitstream')
 
 open(rcs_imem_file, 'w')
 open(ker_kmem_file, 'w')

@@ -12,10 +12,11 @@ module data_bus_handler
   input  logic [              N_COL-1:0] rcs_data_ind_i,
   input  logic [           DP_WIDTH-1:0] rcs_data_add_i [0:N_COL-1],
   input  logic [           DP_WIDTH-1:0] rcs_data_wdata_i [0:N_COL-1],
+  input  logic [     RC_CONST_WIDTH-1:0] rcs_add_inc_i [0:N_COL-1],
   input  logic [           DP_WIDTH-1:0] rd_ptr_i [0:MAX_COL_REQ-1],
   input  logic [           DP_WIDTH-1:0] wr_ptr_i [0:MAX_COL_REQ-1],
   input  logic [              N_COL-1:0] bus_data_gnt_i,
-  input  logic [DATA_BUS_DATA_WIDTH-1:0] bus_data_rdata_i [0:MP-1],
+  input  logic [DATA_BUS_DATA_WIDTH-1:0] bus_data_rdata_i [0:N_COL-1],
   input  logic [              N_COL-1:0] bus_r_valid_i,
   input  logic [              N_COL-1:0] col_start_i,
   input  logic [              N_COL-1:0] col_conf_ack_i,
@@ -50,12 +51,19 @@ module data_bus_handler
   logic [              N_COL-1:0] data_stall_comb_s;
   // Multi-column kernel: choose correct data pointer
   logic [         N_COL_LOG2-1:0] acc_ack_col_accum;
+  logic [ DATA_BUS_ADD_WIDTH-1:0] rcs_add_inc_sign_ext [0:N_COL-1];
 
   assign data_stall_o     = data_stall_comb_s;
   // Use this version if single-cycle bus access is not possible
   assign bus_data_wdata_o = rcs_data_wdata_i;
   assign bus_data_add_o   = bus_data_add_s;
   assign bus_data_wen_o   = rcs_data_wen_i;
+
+  always_comb begin : inc_sign_extension_logic
+    for(int k=0; k<N_COL; k++) begin
+      rcs_add_inc_sign_ext[k] = {{(DATA_BUS_ADD_WIDTH-RC_CONST_WIDTH){rcs_add_inc_i[k][RC_CONST_WIDTH-1]}}, rcs_add_inc_i[k][RC_CONST_WIDTH-1:0]};
+    end
+  end
 
   generate
     for(j=0; j<N_COL; j++) begin : data_bus_ctrl_reg_gen
@@ -84,7 +92,7 @@ module data_bus_handler
           if (col_start_i[j] == 1'b1) begin
             rd_data_cnt_col[j] <= rd_ptr_i[acc_ack_col_accum];
           end else if (rcs_data_req_i[j] == 1'b1 && rcs_data_wen_i[j] == 1'b1 && rcs_data_ind_i[j] == 1'b0 && ahb_add_success[j] == 1'b1) begin
-            rd_data_cnt_col[j] <= rd_data_cnt_col[j] + 32'h4; // 32b word add increase
+            rd_data_cnt_col[j] <= rd_data_cnt_col[j] + rcs_add_inc_sign_ext[j]; //32'h4; // 32b word add increase
           end
         end
       end
@@ -98,7 +106,7 @@ module data_bus_handler
           if (col_start_i[j] == 1'b1) begin
             wr_data_cnt_col[j] <= wr_ptr_i[acc_ack_col_accum];
           end else if (rcs_data_req_i[j] == 1'b1 && rcs_data_wen_i[j] == 1'b0 && rcs_data_ind_i[j] == 1'b0 && ahb_add_success[j] == 1'b1) begin
-            wr_data_cnt_col[j]  <= wr_data_cnt_col[j] + 32'h4; // 32b word add increase
+            wr_data_cnt_col[j]  <= wr_data_cnt_col[j] + rcs_add_inc_sign_ext[j]; //32'h4; // 32b word add increase
           end
         end
       end

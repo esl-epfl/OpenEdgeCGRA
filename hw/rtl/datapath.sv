@@ -31,6 +31,7 @@ module datapath
   output logic                         data_ind_o,
   output logic [         DP_WIDTH-1:0] data_add_o,
   output logic [         DP_WIDTH-1:0] data_wdata_o,
+  output logic [   RC_CONST_WIDTH-1:0] add_inc_o,
   output logic                         dp_stall_o,
   output logic                         rc_nop_o,
   output logic                         exec_end_o
@@ -59,12 +60,13 @@ module datapath
   logic                         data_we_s;
   logic                         data_ind_s;
   logic [         DP_WIDTH-1:0] data_alu_mux;
-  // logic [         DP_WIDTH-1:0] data_rdata_reg;
   logic                         rf_en;
 
-
-  assign flag_o      = alu_flag;
-  // assign result_o    = alu_res;
+  assign flag_o = alu_flag;
+  
+  // The immediate field provide the increment offset for the address for LWD/SWD instruction (post-incrementation)
+  // The value is sign extended to enable incrementing and decrementing the address
+  assign add_inc_o = (alu_op == CGRA_ALU_LWD | alu_op == CGRA_ALU_SWD) ? imm_val : '0;
 
   // Here the configuration word is decoded and fed to the different components
   assign mux_a_sel    = conf_rdata_i[31:28];

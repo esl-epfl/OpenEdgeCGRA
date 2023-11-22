@@ -23,7 +23,7 @@ k = ker_num_instr
 #################################################################################################
 
 # COLUMN-0
-rcs_instructions[0][start_add+ 0] = [   "-",    "-",    "LWD", "R0",    "-", "-"]
+rcs_instructions[0][start_add+ 0] = [   "-",    "-",    "LWD", "R0",    "-", "4"]
 rcs_instructions[0][start_add+ 1] = [   "-",   "R0",    "LWI", "R2",    "-", "-"]
 rcs_instructions[0][start_add+ 2] = ["ZERO",  "IMM",   "SADD", "R1",    "-", "123"]
 rcs_instructions[0][start_add+ 3] = [ "RCB",   "R2",   "SMUL", "R2",    "-", "-"]
@@ -33,7 +33,7 @@ rcs_instructions[0][start_add+ 6] = ["ZERO", "ZERO",    "BEQ",  "-",    "-", "3"
 rcs_instructions[0][start_add+ 7] = [   "-",    "-",   "EXIT",  "-",    "-", "-"]
 
 # COLUMN-1
-rcs_instructions[0][start_add+k+ 0] = [   "-",    "-",    "LWD", "R0",    "-", "-"]
+rcs_instructions[0][start_add+k+ 0] = [   "-",    "-",    "LWD", "R0",    "-", "4"]
 rcs_instructions[0][start_add+k+ 1] = [   "-",   "R0",    "LWI", "R2",    "-", "-"]
 rcs_instructions[0][start_add+k+ 2] = ["ZERO",  "IMM",   "SADD", "R1",    "-", "123"]
 rcs_instructions[0][start_add+k+ 3] = [ "RCT",   "R2",   "SMUL", "R2",    "-", "-"]
@@ -67,7 +67,7 @@ rcs_instructions[0][start_add+3*k+ 7] = rcs_nop_instr
 #################################################################################################
 
 # COLUMN-0
-rcs_instructions[1][start_add+ 0] = [   "-",    "-",    "LWD", "R0",    "-", "-"]
+rcs_instructions[1][start_add+ 0] = [   "-",    "-",    "LWD", "R0",    "-", "4"]
 rcs_instructions[1][start_add+ 1] = [   "-",   "R0",    "LWI", "R2",    "-", "-"]
 rcs_instructions[1][start_add+ 2] = ["ZERO",  "IMM",   "SADD", "R1",    "-", "123"]
 rcs_instructions[1][start_add+ 3] = [ "RCB",   "R2",   "SMUL", "R2",    "-", "-"]
@@ -77,7 +77,7 @@ rcs_instructions[1][start_add+ 6] = [  "R0",   "R2",   "LAND",  "-",    "-", "-"
 rcs_instructions[1][start_add+ 7] = rcs_nop_instr
 
 # COLUMN-1
-rcs_instructions[1][start_add+k+ 0] = [   "-",    "-",    "LWD", "R0",    "-", "-"]
+rcs_instructions[1][start_add+k+ 0] = [   "-",    "-",    "LWD", "R0",    "-", "4"]
 rcs_instructions[1][start_add+k+ 1] = [   "-",   "R0",    "LWI", "R2",    "-", "-"]
 rcs_instructions[1][start_add+k+ 2] = ["ZERO",  "IMM",   "SADD", "R1",    "-", "123"]
 rcs_instructions[1][start_add+k+ 3] = [ "RCT",   "R2",   "SMUL", "R2",    "-", "-"]
@@ -111,7 +111,7 @@ rcs_instructions[1][start_add+3*k+ 7] = rcs_nop_instr
 #################################################################################################
 
 # COLUMN-0
-rcs_instructions[2][start_add+ 0] = [   "-",    "-",    "LWD", "R0",    "-", "-"]
+rcs_instructions[2][start_add+ 0] = [   "-",    "-",    "LWD", "R0",    "-", "4"]
 rcs_instructions[2][start_add+ 1] = [   "-",   "R0",    "LWI", "R2",    "-", "-"]
 rcs_instructions[2][start_add+ 2] = ["ZERO",  "IMM",   "SADD", "R1",    "-", "123"]
 rcs_instructions[2][start_add+ 3] = [ "RCB",   "R2",   "SMUL", "R2",    "-", "-"]
@@ -121,7 +121,7 @@ rcs_instructions[2][start_add+ 6] = [  "R0",   "R2",   "LAND",  "-",    "-", "-"
 rcs_instructions[2][start_add+ 7] = rcs_nop_instr
 
 # COLUMN-1
-rcs_instructions[2][start_add+k+ 0] = [   "-",    "-",    "LWD", "R0",    "-", "-"]
+rcs_instructions[2][start_add+k+ 0] = [   "-",    "-",    "LWD", "R0",    "-", "4"]
 rcs_instructions[2][start_add+k+ 1] = [   "-",   "R0",    "LWI", "R2",    "-", "-"]
 rcs_instructions[2][start_add+k+ 2] = ["ZERO",  "IMM",   "SADD", "R1",    "-", "123"]
 rcs_instructions[2][start_add+k+ 3] = [ "RCT",   "R2",   "SMUL", "R2",    "-", "-"]
@@ -155,7 +155,7 @@ rcs_instructions[2][start_add+3*k+ 7] = rcs_nop_instr
 #################################################################################################
 
 # COLUMN-0
-rcs_instructions[3][start_add+ 0] = [   "-",    "-",    "LWD", "R0",    "-", "-"]
+rcs_instructions[3][start_add+ 0] = [   "-",    "-",    "LWD", "R0",    "-", "4"]
 rcs_instructions[3][start_add+ 1] = [   "-",   "R0",    "LWI", "R2",    "-", "-"]
 rcs_instructions[3][start_add+ 2] = ["ZERO",  "IMM",   "SADD", "R1",    "-", "123"]
 rcs_instructions[3][start_add+ 3] = [ "RCB",   "R2",   "SMUL", "R2",    "-", "-"]
@@ -165,7 +165,7 @@ rcs_instructions[3][start_add+ 6] = [  "R0",   "R2",   "LAND",  "-",    "-", "-"
 rcs_instructions[3][start_add+ 7] = rcs_nop_instr
 
 # COLUMN-1
-rcs_instructions[3][start_add+k+ 0] = [   "-",    "-",    "LWD", "R0",    "-", "-"]
+rcs_instructions[3][start_add+k+ 0] = [   "-",    "-",    "LWD", "R0",    "-", "4"]
 rcs_instructions[3][start_add+k+ 1] = [   "-",   "R0",    "LWI", "R2",    "-", "-"]
 rcs_instructions[3][start_add+k+ 2] = ["ZERO",  "IMM",   "SADD", "R1",    "-", "123"]
 rcs_instructions[3][start_add+k+ 3] = [ "RCT",   "R2",   "SMUL", "R2",    "-", "-"]

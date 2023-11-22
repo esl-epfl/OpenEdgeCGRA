@@ -40,7 +40,7 @@ rcs_instructions[0][start_add+ 9] = rcs_nop_instr
 # EPILOGUE
 rcs_instructions[0][start_add+10] = rcs_nop_instr
 rcs_instructions[0][start_add+11] = rcs_nop_instr
-rcs_instructions[0][start_add+12] = [  "R0",    "-",  "SWD",  "-",      "-", "-"]
+rcs_instructions[0][start_add+12] = [  "R0",    "-",  "SWD",  "-",      "-", "4"]
 rcs_instructions[0][start_add+13] = [   "-",    "-", "EXIT",  "-",      "-", "-"]
 
 #################################################################################################
@@ -49,7 +49,7 @@ rcs_instructions[0][start_add+13] = [   "-",    "-", "EXIT",  "-",      "-", "-"
 
 # COLUMN-0
 # PROLOGUE
-rcs_instructions[1][start_add+ 0] = [   "-",    "-",  "LWD", "R2",      "-", "-"]
+rcs_instructions[1][start_add+ 0] = [   "-",    "-",  "LWD", "R2",      "-", "4"]
 rcs_instructions[1][start_add+ 1] = rcs_nop_instr
 rcs_instructions[1][start_add+ 2] = [   "-",   "R2",  "LWI", "R0",      "-", "-"]
 
@@ -63,7 +63,7 @@ rcs_instructions[1][start_add+ 8] = [  "R3", "ZERO", "SADD", "R0",      "-", "-"
 rcs_instructions[1][start_add+ 9] = rcs_nop_instr
 
 # EPILOGUE
-rcs_instructions[1][start_add+10] = [  "R0",    "-",  "SWD",  "-",      "-", "-"]
+rcs_instructions[1][start_add+10] = [  "R0",    "-",  "SWD",  "-",      "-", "4"]
 rcs_instructions[1][start_add+11] = rcs_nop_instr
 rcs_instructions[1][start_add+12] = rcs_nop_instr
 rcs_instructions[1][start_add+13] = rcs_nop_instr
@@ -89,7 +89,7 @@ rcs_instructions[2][start_add+ 9] = rcs_nop_instr
 
 # EPILOGUE
 rcs_instructions[2][start_add+10] = rcs_nop_instr
-rcs_instructions[2][start_add+11] = [  "R0",    "-",  "SWD",  "-",      "-", "-"]
+rcs_instructions[2][start_add+11] = [  "R0",    "-",  "SWD",  "-",      "-", "4"]
 rcs_instructions[2][start_add+12] = rcs_nop_instr
 rcs_instructions[2][start_add+13] = rcs_nop_instr
 
@@ -100,7 +100,7 @@ rcs_instructions[2][start_add+13] = rcs_nop_instr
 # COLUMN-0
 # PROLOGUE
 rcs_instructions[3][start_add+ 0] = [ "IMM", "ZERO", "SADD", "R0",      "-", "-1"] # move
-rcs_instructions[3][start_add+ 1] = [   "-",    "-",  "LWD", "R3",      "-", "-"]
+rcs_instructions[3][start_add+ 1] = [   "-",    "-",  "LWD", "R3",      "-", "4"]
 rcs_instructions[3][start_add+ 2] = rcs_nop_instr
 
 # ITERATION LOOP

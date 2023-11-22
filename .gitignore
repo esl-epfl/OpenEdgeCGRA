@@ -2,3 +2,15 @@
 build
 *_app
 bitstream
+*__pycache__*
+
+# Generated hardware files
+hw/rtl/cgra_pkg.sv
+hw/rtl/cgra_reg_pkg.sv
+hw/rtl/cgra_reg_top.sv
+hw/rtl/peripheral_regs.sv
+data/cgra_regs.hjson
+
+# Generated software files
+sw/cgra_regs.h
+util/cgra_bitstream_gen.py

@@ -1,0 +1,54 @@
+CAPI=2:
+
+# Copyright 2022 EPFL
+# Solderpad Hardware License, Version 2.1, see LICENSE.md for details.
+# SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
+
+name: "eslepfl::cgra"
+description: "CGRA HDL"
+
+filesets:
+  files_rtl:
+    depend:
+    - x-heep::packages
+    - pulp-platform.org::common_cells
+    files:
+    - hw/rtl/cgra_pkg.sv
+    - hw/rtl/cgra_reg_pkg.sv
+    - hw/rtl/cgra_reg_top.sv
+    - hw/rtl/peripheral_regs.sv
+    - hw/rtl/program_counter.sv
+    - hw/rtl/alu.sv
+    - hw/rtl/reg_file.sv
+    - hw/rtl/mux.sv
+    - hw/rtl/datapath.sv
+    - hw/rtl/conf_reg_file.sv
+    - hw/rtl/reconfigurable_cell.sv
+    - hw/rtl/data_bus_handler.sv
+    - hw/rtl/synchronizer.sv
+    - hw/rtl/cgra_controller.sv
+    - hw/rtl/cgra_rcs.sv
+    - hw/rtl/context_memory_decoder.sv
+    - hw/rtl/cgra_top.sv
+    - hw/rtl/context_memory.sv
+    - hw/wrapper/cgra_top_wrapper.sv
+    file_type: systemVerilogSource
+
+
+  files_behav_rtl:
+    files:
+    - sim/cgra_clock_gate.sv
+    - sim/cgra_sram_wrapper.sv
+    file_type: systemVerilogSource
+
+  files_verilator_waiver:
+    files:
+    - lint/cgra.vlt
+    file_type: vlt
+
+targets:
+  default:
+    filesets:
+    - files_rtl
+    - tool_verilator? (files_verilator_waiver)
+    - target_sim? (files_behav_rtl)

@@ -12,14 +12,14 @@ module cgra_top
   input  reg_req_t                       reg_req_i,
   output reg_rsp_t                       reg_rsp_o,
   // AHB Master port
-  output logic [                 MP-1:0] tcdm_req_o,
-  output logic [ DATA_BUS_ADD_WIDTH-1:0] tcdm_add_o [0:MP-1],
-  output logic [                 MP-1:0] tcdm_wen_o,
-  output logic [                  4-1:0] tcdm_be_o [0:MP-1],
-  output logic [DATA_BUS_DATA_WIDTH-1:0] tcdm_wdata_o [0:MP-1],
-  input  logic [                 MP-1:0] tcdm_gnt_i,
-  input  logic [DATA_BUS_DATA_WIDTH-1:0] tcdm_rdata_i [0:MP-1],
-  input  logic [                 MP-1:0] tcdm_r_valid_i,
+  output logic [              N_COL-1:0] tcdm_req_o,
+  output logic [ DATA_BUS_ADD_WIDTH-1:0] tcdm_add_o [0:N_COL-1],
+  output logic [              N_COL-1:0] tcdm_wen_o,
+  output logic [                  4-1:0] tcdm_be_o [0:N_COL-1],
+  output logic [DATA_BUS_DATA_WIDTH-1:0] tcdm_wdata_o [0:N_COL-1],
+  input  logic [              N_COL-1:0] tcdm_gnt_i,
+  input  logic [DATA_BUS_DATA_WIDTH-1:0] tcdm_rdata_i [0:N_COL-1],
+  input  logic [              N_COL-1:0] tcdm_r_valid_i,
   // AHB Slave port
   input  logic                           cm_req_i,
   input  logic [ DATA_BUS_ADD_WIDTH-1:0] cm_add_i,
@@ -36,7 +36,7 @@ module cgra_top
   output logic [  IMEM_N_LINES_LOG2-1:0] cm_addr_o,
   input  logic [        INSTR_WIDTH-1:0] rcs_cmem_rdata_i [0:N_ROW-1],
   // CGRA interrupts
-  output logic [            N_SLOTS-1:0] evt_o
+  output logic                           evt_o
 );
 
   logic [              N_COL-1:0] rcs_data_req_s;
@@ -47,6 +47,7 @@ module cgra_top
   logic [           DP_WIDTH-1:0] rcs_data_rdata_s [0:N_COL-1];
   logic [              N_COL-1:0] rcs_data_gnt_s;
   logic [              N_COL-1:0] rcs_data_rvalid_s;
+  logic [     RC_CONST_WIDTH-1:0] rcs_add_inc_s [0:N_COL-1];
   logic [              N_COL-1:0] data_stall_s ;
   logic [KER_CONF_N_REG_LOG2-1:0] ker_id_req_s;
   logic [              N_COL-1:0] acc_end_s;
@@ -185,6 +186,7 @@ module cgra_top
     .data_ind_o       ( rcs_data_ind_s    ),
     .data_add_o       ( rcs_data_add_s    ),
     .data_wdata_o     ( rcs_data_wdata_s  ),
+    .add_inc_o        ( rcs_add_inc_s     ),
     .rcs_br_req_o     ( rcs_br_req_s      ),
     .rcs_br_add_o     ( rcs_br_add_s      ),
     .rcs_stall_o      ( rcs_stall_s       ),
@@ -200,6 +202,7 @@ module cgra_top
     .rcs_data_ind_i    ( rcs_data_ind_s    ),
     .rcs_data_add_i    ( rcs_data_add_s    ),
     .rcs_data_wdata_i  ( rcs_data_wdata_s  ),
+    .rcs_add_inc_i     ( rcs_add_inc_s     ),
     .rd_ptr_i          ( rd_ptr_s          ),
     .wr_ptr_i          ( wr_ptr_s          ),
     .bus_data_gnt_i    ( tcdm_gnt_i        ),

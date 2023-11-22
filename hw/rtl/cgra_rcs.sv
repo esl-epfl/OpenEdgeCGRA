@@ -21,6 +21,7 @@ module cgra_rcs
   output logic [            N_COL-1:0] data_ind_o,
   output logic [         DP_WIDTH-1:0] data_add_o [0:N_COL-1],
   output logic [         DP_WIDTH-1:0] data_wdata_o [0:N_COL-1],
+  output logic [   RC_CONST_WIDTH-1:0] add_inc_o [0:N_COL-1],
   output logic [            N_COL-1:0] rcs_br_req_o,
   output logic [RCS_NUM_CREG_LOG2-1:0] rcs_br_add_o [0:N_COL-1],
   output logic [            N_COL-1:0] rcs_stall_o,
@@ -43,6 +44,7 @@ module cgra_rcs
   logic [   N_COL-1:0] data_ind_s [0:N_ROW-1];
   logic [DP_WIDTH-1:0] data_add_s [0:N_ROW-1][0:N_COL-1];
   logic [DP_WIDTH-1:0] data_wdata_s [0:N_ROW-1][0:N_COL-1];
+  logic [RC_CONST_WIDTH-1:0] add_inc_s [0:N_ROW-1][0:N_COL-1];
   logic [DP_WIDTH-1:0] rcs_wdata_s [0:N_COL-1];
 
   logic [  DP_WIDTH-1:0] rcs_res [0:N_ROW-1][0:N_COL-1];
@@ -144,7 +146,6 @@ module cgra_rcs
       begin
         rvalid_demux[j] = '0;
         // for each row
-
         for (int k=0; k<N_ROW; k++) begin
           if (data_req_rvalid_mask[j][k] == 1'b1 && data_wen_s[k][j] == 1'b1 && data_rvalid_i[j] == 1'b1) begin
             rvalid_demux[j][k] = 1'b1;
@@ -231,20 +232,20 @@ module cgra_rcs
           end
         end else begin
           for (int k=0; k<N_ROW; k++) begin
-            if( rcs_pc_e_i[j] == 1'b0 ) begin // PC enable is low
-              if( rvalid_demux[j][k] == 1'b1 ) begin // If the data is ready, copy it to a temproary buffer
+            if (rcs_pc_e_i[j] == 1'b0) begin // PC enable is low
+              if (rvalid_demux[j][k] == 1'b1) begin // If the data is ready, copy it to a temproary buffer
                 rcs_res_reg_temp[k][j]  <= data_rdata_i[j];
                 rcs_flag_reg_temp[k][j] <= {data_rdata_i[j][DP_WIDTH-1], ~(|data_rdata_i[j])};
               end
             end else begin // PC enable is high
-              if( data_req_s[k][j] == 1'b0 ) begin
+              if (data_req_s[k][j] == 1'b0) begin
                 if (rcs_nop_s[k][j] == 1'b0) begin
                   rcs_res_reg[k][j]  <= rcs_res[k][j];
                   rcs_flag_reg[k][j] <= rcs_flag[k][j];
                 end
               end else begin  // Read data instruction
-                if( rcs_nop_s[k][j] == 1'b0  ) begin
-                  if ( rvalid_demux[j][k] == 1'b1) begin // If the data is ready, copy it straight away.
+                if (rcs_nop_s[k][j] == 1'b0) begin
+                  if (rvalid_demux[j][k] == 1'b1) begin // If the data is ready, copy it straight away.
                     rcs_res_reg[k][j]  <= data_rdata_i[j];
                     rcs_flag_reg[k][j] <= {data_rdata_i[j][DP_WIDTH-1], ~(|data_rdata_i[j])};
                   end else begin  // If the data is not ready, it was ready before, so copy the temp buffer.
@@ -268,8 +269,14 @@ module cgra_rcs
         // for each row
         data_add_o[j] = '0; // default value
         for (int k=0; k<N_ROW; k++) begin
-          if (data_req_gnt_mask[j][k] == 1'b1 && data_ind_s[k][j] == 1'b1) begin
-            data_add_o[j] = data_add_s[k][j];
+          if (data_req_gnt_mask[j][k] == 1'b1) begin
+            if (data_ind_s[k][j] == 1'b1) begin
+              // LWI or SWI
+              data_add_o[j] = data_add_s[k][j];
+            end else begin
+              // LWD or SWD
+              add_inc_o[j]  = add_inc_s[k][j];
+            end
             break;
           end
         end
@@ -421,6 +428,7 @@ module cgra_rcs
           .data_ind_o    (       data_ind_s[i  ][j  ] ),
           .data_add_o    (       data_add_s[i  ][j  ] ),
           .data_wdata_o  (     data_wdata_s[i  ][j  ] ),
+          .add_inc_o     (        add_inc_s[i  ][j  ] ),
           .rc_stall_o    (      rcs_stall_s[i  ][j  ] ),
           .rc_nop_o      (        rcs_nop_s[i  ][j  ] ),
           .exec_end_o    (       rcs_ex_end[i  ][j  ] )

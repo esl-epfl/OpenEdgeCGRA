@@ -5,7 +5,7 @@ An Open-Hardware Coarse Grained Reconfigurable Array (CGRA) for accelerated comp
 
 # Instruction-based CGRA
 
-The CGRA is a $N\times M$ 2D-array of processing elements (PE, also referred to as Reconfigurable Cells, or RCs). Each PE is connected to its neighbouts in a torus configuration (top PEs are connected to the bottom ones, and leftmost to rightmost).
+The CGRA is a configurable $N\times M$ 2D-array of processing elements (PE, also referred to as Reconfigurable Cells, or RCs). Each PE is connected to its neighbours in a torus configuration (top PEs are connected to the bottom ones, and leftmost to rightmost).
 
 Each PE can perform a number of operations (see the [Instruction Set)](#instruction-set)). They can load data from memory, from their own internal registers or from their neighbours' output registers. This way the CGRA can execute complex functions parallelizing operations and reducing memory accesses.
 

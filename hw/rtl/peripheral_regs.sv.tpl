@@ -40,9 +40,9 @@ module peripheral_regs
   begin
     ker_id_o = reg2hw.kernel_id.q[KER_CONF_N_REG_LOG2-1:0];
 
-% for col in range(cgra_num_columns):
-  rd_ptr_o[${col}] = reg2hw.ptr_in_col_${col}.q;
-  wr_ptr_o[${col}] = reg2hw.ptr_out_col_${col}.q;
+% for col in range(cgra_max_columns):
+    rd_ptr_o[${col}] = reg2hw.ptr_in_col_${col}.q;
+    wr_ptr_o[${col}] = reg2hw.ptr_out_col_${col}.q;
 % endfor
   end
 

@@ -22,7 +22,7 @@ module cgra_top_wrapper
   input  obi_req_t              slave_req_i,
   output obi_resp_t             slave_resp_o,
   // Set configuration memory in retentive mode
-  input  logic                  cmem_set_retentive_i,
+  input  logic                  cmem_set_retentive_ni,
   // interrupt
   output logic                  cgra_int_o
 );
@@ -140,15 +140,15 @@ module cgra_top_wrapper
 
   context_memory cgra_context_memory_i
   (
-    .clk_i              ( clk_i                ),
-    .rst_ni             ( rst_ni               ),
-    .cm_cg_i            ( clk_mem_cg           ),
-    .cm_set_retentive_i ( cmem_set_retentive_i ),
-    .cm_row_req_i       ( cm_row_req_s         ),
-    .cm_we_i            ( cm_we_s              ),
-    .cm_addr_i          ( cm_addr_s            ),
-    .cm_wdata_i         ( cm_wdata             ),
-    .rcs_cmem_rdata_o   ( rcs_cmem_rdata_s     )
+    .clk_i               ( clk_i                 ),
+    .rst_ni              ( rst_ni                ),
+    .cm_cg_i             ( clk_mem_cg            ),
+    .cm_set_retentive_ni ( cmem_set_retentive_ni ),
+    .cm_row_req_i        ( cm_row_req_s          ),
+    .cm_we_i             ( cm_we_s               ),
+    .cm_addr_i           ( cm_addr_s             ),
+    .cm_wdata_i          ( cm_wdata              ),
+    .rcs_cmem_rdata_o    ( rcs_cmem_rdata_s      )
   );
 
 endmodule

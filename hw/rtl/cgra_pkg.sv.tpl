@@ -6,25 +6,31 @@ package cgra_pkg;
 
   // CGRA GRID CONFIGURATION
   localparam N_ROW      = ${cgra_num_rows};
-  localparam N_ROW_LOG2 = $clog2(N_ROW);
+  localparam N_ROW_LOG2 = N_ROW == 1 ? 1 : $clog2(N_ROW);
   localparam N_COL      = ${cgra_num_columns};
-  localparam N_COL_LOG2 = $clog2(N_COL);
+  localparam N_COL_LOG2 = N_COL == 1 ? 1 : $clog2(N_COL);
 
   // Maximum number of columns a kernel can use
-  localparam MAX_COL_REQ      = N_COL;
+  localparam MAX_COL_REQ      = ${cgra_max_columns};
   localparam MAX_COL_REQ_LOG2 = $clog2(MAX_COL_REQ);
-
-  // CGRA APB REGISTERS
-  localparam N_PERIPH_REGS      = 32;
-  localparam N_PERIPH_REGS_LOG2 = $clog2(N_PERIPH_REGS);
   
-  localparam CGRA_APB_REG_STATE = 0;
+  // Registers:
+  // 0: Status
+  // 1: Kernel ID
+  // 2-...: 2*MAX_COL_REQ (2 pointers per columns)
+  // ...: Performance counters enable
+  // ...: Performance counters reset 
+  // ...: Performance counter number of executed kernels
+  // ...: Performance counter 2*N_COL (active and stall cycles)
+  localparam CGRA_PERIPH_STATUS_REG_OFFSET = 0;
+  localparam CGRA_NUM_PERIPH_REG = ${5+2*cgra_max_columns+2*cgra_num_columns};
+  localparam CGRA_NUM_PERIPH_REG_LOG2 = $clog2(CGRA_NUM_PERIPH_REG);
 
   // RCs CONFIGURATION
   localparam RC_NUM_REG     = 4;
   localparam RC_NUM_REG_LOG = $clog2(RC_NUM_REG);
 
-  localparam RCS_NUM_CREG     = 32;
+  localparam RCS_NUM_CREG     = ${cgra_rcs_num_instr};
   localparam RCS_NUM_CREG_LOG2 = $clog2(RCS_NUM_CREG);
 
   localparam DP_WIDTH       = 32;
@@ -36,14 +42,14 @@ package cgra_pkg;
   localparam N_MEM_BANKS      = N_ROW+1;
   localparam N_MEM_BANKS_LOG2 = $clog2(N_MEM_BANKS);
 
-  localparam IMEM_N_LINES      = 128; // per RC
+  localparam IMEM_N_LINES      = ${cgra_cmem_bk_depth}; // per RC
   localparam IMEM_N_LINES_LOG2 = $clog2(IMEM_N_LINES);
 
   // for compatibilty reason
   localparam RC_INSTR_N_REG = IMEM_N_LINES;
   localparam RC_INSTR_N_REG_LOG2 = IMEM_N_LINES_LOG2;
 
-  localparam KER_CONF_N_REG      = 16;
+  localparam KER_CONF_N_REG      = ${cgra_kmem_depth};
   localparam KER_CONF_N_REG_LOG2 = $clog2(KER_CONF_N_REG);
 
   // Number of bits needed to write to the multi-banks instruction memory

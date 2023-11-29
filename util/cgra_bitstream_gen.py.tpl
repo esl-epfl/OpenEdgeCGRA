@@ -101,17 +101,27 @@ def return_indices_of_a(a, b, name = ''):
 CGRA_N_COL = ${cgra_num_columns}
 CGRA_N_ROW = ${cgra_num_rows}
 
-RCS_NUM_CREG      = 32;
+CGRA_MAX_COL = ${cgra_max_columns}
+
+RCS_NUM_CREG      = ${cgra_rcs_num_instr};
 RCS_NUM_CREG_LOG2 = ceil(log(RCS_NUM_CREG,2));
 
-CGRA_IMEM_N_LINE = 128
-CGRA_IMEM_NL_LOG2 = ceil(log(CGRA_IMEM_N_LINE,2))
+CGRA_CMEM_BK_DEPTH = ${cgra_cmem_bk_depth}
+CGRA_CMEM_BK_DEPTH_LOG2 = ceil(log(CGRA_CMEM_BK_DEPTH,2))
 
 # Memory holding the kernel configuration words (KMEM)
 # Max possible number of kernel
-CGRA_KMEM_N_KER = 16
+CGRA_KMEM_DEPTH = ${cgra_kmem_depth}
 # Kernel configuration word width
-CGRA_KMEM_WIDTH = CGRA_N_COL + CGRA_IMEM_NL_LOG2 + RCS_NUM_CREG_LOG2
+CGRA_KMEM_WIDTH = CGRA_MAX_COL + CGRA_CMEM_BK_DEPTH_LOG2 + RCS_NUM_CREG_LOG2
+
+# Check the parameters are in the expected range
+if CGRA_KMEM_WIDTH > 32:
+    print('ERROR: kernel configuration word width > 32 bits')
+if CGRA_CMEM_BK_DEPTH < (CGRA_MAX_COL*RCS_NUM_CREG):
+    print('WARNING: context memory cannot hold the maximum kernel size')
+if ${cgra_max_columns} > CGRA_N_COL:
+    print('ERROR: maximum number of columns is larger than the actual number of columns')
 
 <%text>
 #################################################################
@@ -133,7 +143,11 @@ RCS_RF_WE_BITS   = 1
 RCS_MUXFLAG_BITS = 3
 RCS_IMM_BITS     = 13
 
-CGRA_IMEM_WIDTH = RCS_MUXA_BITS+RCS_MUXB_BITS+RCS_ALU_OP_BITS+RCS_RF_WADD_BITS+RCS_RF_WE_BITS+RCS_MUXFLAG_BITS+RCS_IMM_BITS
+CGRA_CMEM_WIDTH = RCS_MUXA_BITS+RCS_MUXB_BITS+RCS_ALU_OP_BITS+RCS_RF_WADD_BITS+RCS_RF_WE_BITS+RCS_MUXFLAG_BITS+RCS_IMM_BITS
+
+# This could be changed but for now 32 bits are expected
+if CGRA_CMEM_WIDTH != 32:
+    print('ERROR: instructions (configuration words) width not equal to 32')
 
 muxA_list     = ['ZERO', 'SELF', 'RCL', 'RCR', 'RCT', 'RCB',  'R0', 'R1', 'R2', 'R3', 'IMM']
 muxB_list     = ['ZERO', 'SELF', 'RCL', 'RCR', 'RCT', 'RCB',  'R0', 'R1', 'R2', 'R3', 'IMM']
@@ -182,11 +196,11 @@ if not os.path.exists('../bitstream'):
 open(rcs_imem_file, 'w')
 open(ker_kmem_file, 'w')
 
-rcs_logger = logfunc.log2file(rcs_imem_file, CGRA_IMEM_WIDTH + 4) # + 0b<>, 
+rcs_logger = logfunc.log2file(rcs_imem_file, CGRA_CMEM_WIDTH + 4) # + 0b<>, 
 ker_logger = logfunc.log2file(ker_kmem_file, CGRA_KMEM_WIDTH)
 
-rcs_instructions = [[rcs_nop_instr for _ in range(CGRA_IMEM_N_LINE)] for _ in range (CGRA_N_ROW)]
-ker_conf_words   = [ker_null_conf for _ in range(CGRA_KMEM_N_KER)]
+rcs_instructions = [[rcs_nop_instr for _ in range(CGRA_CMEM_BK_DEPTH)] for _ in range (CGRA_N_ROW)]
+ker_conf_words   = [ker_null_conf for _ in range(CGRA_KMEM_DEPTH)]
 
 # First entry is always null
 ker_conf_words[0] = ker_null_conf
@@ -220,19 +234,19 @@ exec(open("instructions_fft_cplx_forever.py").read())
 
 # PRINT STATS
 print("CGRA conf. word width  :", CGRA_KMEM_WIDTH)
-print("CGRA instruction width :", CGRA_IMEM_WIDTH)
+print("CGRA instruction width :", CGRA_CMEM_WIDTH)
 print("CGRA number of kernels :", ker_next_id-1)
 print("-------------------------------------")
 
 # Check instruction memory is large enough
-if ker_start_add > CGRA_IMEM_N_LINE:
+if ker_start_add > CGRA_CMEM_BK_DEPTH:
     print("ERROR: TOO MANY INSTRUCTIONS FOR CGRA MEMORY")
 else:
-    print("INFO: {}/{} CGRA INSTRUCTIONS".format(ker_start_add, CGRA_IMEM_N_LINE));
+    print("INFO: {}/{} CGRA INSTRUCTIONS".format(ker_start_add, CGRA_CMEM_BK_DEPTH));
 
 print("-------------------------------------")
 
-for i in range(0,CGRA_KMEM_N_KER):
+for i in range(0,CGRA_KMEM_DEPTH):
     # ker_logger.log_line(ker_conf_words[i])
     ker_logger.log_line(hex(int(ker_conf_words[i],2)))
     # print(ker_conf_words[i])

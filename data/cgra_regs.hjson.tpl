@@ -27,7 +27,7 @@
       ]
     },
 
-  % for col in range(cgra_num_columns):
+  % for col in range(cgra_max_columns):
     { name:     "PTR_IN_COL_${col}",
       desc:     "Input data pointer for column ${col} used",
       swaccess: "rw",

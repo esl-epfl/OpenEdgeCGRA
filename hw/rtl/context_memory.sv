@@ -8,7 +8,7 @@ module context_memory
   input  logic                           clk_i,
   input  logic                           rst_ni,
   input  logic                           cm_cg_i,
-  input  logic                           cm_set_retentive_i,
+  input  logic                           cm_set_retentive_ni,
   input  logic [              N_ROW-1:0] cm_row_req_i,
   input  logic                           cm_we_i,
   input  logic [  IMEM_N_LINES_LOG2-1:0] cm_addr_i,
@@ -30,7 +30,7 @@ module context_memory
         .addr_i (cm_addr_i),
         .wdata_i(cm_wdata_i),
         .be_i   (4'b1111),
-        .set_retentive_i (cm_set_retentive_i),
+        .set_retentive_ni (cm_set_retentive_ni),
         // output ports
         .rdata_o(rcs_cmem_rdata_o[j])
       );

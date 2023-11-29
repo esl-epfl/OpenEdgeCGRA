@@ -81,7 +81,7 @@ module cgra_top
     if (rst_ni == 1'b0) begin
       cc_count <= 0;
     end else begin
-      if (reg_req_i.valid == 1'b1 && reg_rsp_o.ready == 1'b1 && reg_req_i.addr[N_PERIPH_REGS_LOG2+2-1:2] == CGRA_APB_REG_STATE) begin
+      if (reg_req_i.valid == 1'b1 && reg_rsp_o.ready == 1'b1 && reg_req_i.addr[CGRA_NUM_PERIPH_REG_LOG2+2-1:2] == CGRA_PERIPH_STATUS_REG_OFFSET) begin
         $display("[CGRA] %t : GLOBAL CLOCK-CYCLE COUNTER: %l", $time, cc_count);
       end
       cc_count <= cc_count + 1;
@@ -94,12 +94,12 @@ module cgra_top
   `ifndef VERILATOR
     // Activate the clock of a column when it is active only
     generate
-      for (genvar j=0; j<N_COL; j++) begin : rcs_col_cg_gen
+      for (genvar i=0; i<N_COL; i++) begin : rcs_col_cg_gen
         cgra_clock_gate clk_gate_rcs_col_i (
           .clk_i     ( clk_i ),
           .test_en_i ( 1'b0 ),
-          .en_i      ( rcs_col_e_s[j] ),
-          .clk_o     ( clk_rcs_cg[j] )
+          .en_i      ( rcs_col_e_s[i] ),
+          .clk_o     ( clk_rcs_cg[i] )
         ); 
       end
     endgenerate
@@ -110,10 +110,11 @@ module cgra_top
     // trick to make sure input data and internal clock signal to the CGRA are updated
     // at the same delta cycle. This is not a problem with all simulators. For example,
     // modelsim correctly simulates this design without this trick.
-    assign clk_rcs_cg[0] = clk_i;
-    assign clk_rcs_cg[1] = clk_i;
-    assign clk_rcs_cg[2] = clk_i;
-    assign clk_rcs_cg[3] = clk_i;
+    always_comb begin
+      for (int i=0; i<N_COL; i++) begin : rcs_col_cg_gen
+        assign clk_rcs_cg[i] = clk_i;
+      end
+    end
   `endif
 
 

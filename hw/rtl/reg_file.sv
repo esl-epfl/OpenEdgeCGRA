@@ -20,25 +20,15 @@ module reg_file
 );
 
   logic [REGFILE_WIDTH-1:0] reg_file_mem [0:REGFILE_DEPTH-1];
-  logic                     clk_cg;
-  logic                     clk_en;
 
   assign regs_o = reg_file_mem;
 
-  assign clk_en = (we_i & ce_i) | rst_i;
-
-  cgra_clock_gate u_clk_gate (
-    .clk_i     ( clk_i  ),
-    .test_en_i ( 1'b0   ),
-    .en_i      ( clk_en ),
-    .clk_o     ( clk_cg )
-  );
-
-  always_ff @(posedge clk_cg)
+  always_ff @(posedge clk_i)
   begin
     if (rst_i == 1'b1) begin
       reg_file_mem <= '{default:'0};
-    end else begin
+    end
+    else if (we_i & ce_i) begin
       reg_file_mem[wsel_i] <= reg_i;
     end
   end

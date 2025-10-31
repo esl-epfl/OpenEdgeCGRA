@@ -147,7 +147,7 @@ module cgra_rcs
         rvalid_demux[j] = '0;
         // for each row
         for (int k=0; k<N_ROW; k++) begin
-          if (data_req_rvalid_mask[j][k] == 1'b1 && data_wen_s[k][j] == 1'b1 && data_rvalid_i[j] == 1'b1) begin
+          if (data_req_rvalid_mask[j][k] == 1'b1 && data_wen_s[k][j] == 1'b1 && data_rvalid_i[j] == 1'b1 && gnt_mask[j][k] == 1'b0) begin
             rvalid_demux[j][k] = 1'b1;
             break;
           end
